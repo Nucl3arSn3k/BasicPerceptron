@@ -5,11 +5,11 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.List;
 public class Perceptron {
     private float eta; // Learning rate
-    private int n_iter;
-    private ArrayList<Double> weights;
+    private int n_iter; //Epochs needed
+    private ArrayList<Double> weights; //Weight holder
     private ArrayList<Integer> errors;
 
-    public Perceptron(float eta, int n_iter) {
+    public Perceptron(float eta, int n_iter) { //Constructor details
         this.eta = eta;
         this.n_iter = n_iter;
 
@@ -31,7 +31,7 @@ public class Perceptron {
         return sum;
     }
 
-    public double weighted_sum(double[] X) {
+    public double weighted_sum(double[] X) { //Weighted sum equation
         double[] weights = new double[X.length];
         for (int i = 0; i < X.length; i++) {
             weights[i] = this.weights.get(i + 1);
@@ -41,13 +41,13 @@ public class Perceptron {
 
 
 
-    public int predict(double[] X) {
+    public int predict(double[] X) { //calc weighted sum then apply activation function
         double weightedSum = weighted_sum(X);
         return weightedSum >= 0 ? 1 : -1;
     }
 
 
-    public List<Integer> predict_batch(List<double[]> X) {
+    public List<Integer> predict_batch(List<double[]> X) { //batch prediction method
         List<Integer> val = new ArrayList<Integer>(X.size());
         for (int i = 0;i < X.size();i++){
             double weightedSum = weighted_sum(X.get(i));
@@ -63,8 +63,8 @@ public class Perceptron {
 
 
 
-    public Perceptron fit(List<double[]> x, List<Integer> y) {
-        if (x.isEmpty() || y.isEmpty() || x.size() != y.size()) {
+    public Perceptron fit(List<double[]> x, List<Integer> y) { //Starts training and chaging the weights
+        if (x.isEmpty() || y.isEmpty() || x.size() != y.size()) { //Input checking
             throw new IllegalArgumentException("Input lists must be non-empty and of equal size");
         }
     
@@ -76,20 +76,20 @@ public class Perceptron {
     
         this.errors = new ArrayList<>();
     
-        for (int i = 0; i < this.n_iter; i++) {
+        for (int i = 0; i < this.n_iter; i++) {//n_iter is the number of epochs
             int error = 0;
-            for (int j = 0; j < x.size(); j++) {
+            for (int j = 0; j < x.size(); j++) {//predict outputs and update weights if incorrect
                 double[] xi = x.get(j);
                 int target = y.get(j);
                 int prediction = predict(xi);
                
-                if (prediction != target) {
+                if (prediction != target) { //Use percerptron learning rule to update weights
                     double update = this.eta * (target - prediction);
                     for (int k = 1; k < this.weights.size(); k++) {
                         this.weights.set(k, this.weights.get(k) + update * xi[k-1]);
                     }
                     this.weights.set(0, this.weights.get(0) + update); // Update bias
-                    error++;
+                    error++; //error tracking stuff
                 }
             }
             this.errors.add(error);

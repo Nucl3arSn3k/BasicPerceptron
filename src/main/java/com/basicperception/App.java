@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class App {
-    public static class Pair<T, U> {
+    public static class Pair<T, U> { //Had to use a custom class for the split,forgot Java doesn't really have tuples
         public final T first;
         public final U second;
 
@@ -32,9 +32,9 @@ public class App {
 
         List<double[]> loc_x = fh.getX();
         List<String> loc_y = fh.getY();
-        Perceptron perp = new Perceptron((float) 0.1, 10);
+        Perceptron perp = new Perceptron((float) 0.1, 10); //create new perceptron class
 
-        Pair<List<double[]>, List<double[]>> splitX = split_list(loc_x);
+        Pair<List<double[]>, List<double[]>> splitX = split_list(loc_x); //Split the lists accordingly.
         Pair<List<String>, List<String>> splitY = split_list(loc_y);
 
         // 75% train, 25% test data
@@ -47,13 +47,13 @@ public class App {
         List<Integer> train_labels = gen_stuff(splitY, true, null);
         List<Integer> test_labels = gen_stuff(splitY, false, null);
 
-        System.err.println("Test labels");
+        System.err.println("Test labels"); //Print the test labels
         System.out.println(test_labels);
 
         perp.fit(splitX.second, train_labels);
 
         List<Integer> result = perp.predict_batch(splitX.first);
-        System.out.println("Prediction result");
+        System.out.println("Prediction result"); //Print the prediction results
         System.out.println(result);
 
         System.out.println(Integer.toBinaryString(result.get(1)));
@@ -70,7 +70,7 @@ public class App {
             }
         }
 
-        double accuracyPercentage = correct.stream().mapToInt(Integer::intValue).average().orElse(0) * 100;
+        double accuracyPercentage = correct.stream().mapToInt(Integer::intValue).average().orElse(0) * 100;//Check how the predcition lines up to actual test labels
 
         System.err.println("Accuracy percentage is " + accuracyPercentage + "\n");
 
