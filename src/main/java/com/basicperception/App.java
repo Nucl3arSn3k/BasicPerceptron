@@ -18,9 +18,9 @@ public class App {
     }
 
     public static void main(String[] args) {
-        // System.out.println("Hello World!");
+
         FileHandler fh = new FileHandler();
-        Path filePath = Paths.get("src", "main", "resources", "iris.csv");
+        Path filePath = Paths.get("src", "main", "resources", "iris2.csv");// Open csv data
 
         try {
             fh.open_csv(filePath);
@@ -48,41 +48,45 @@ public class App {
         List<Integer> test_labels = gen_stuff(splitY, false, null);
 
         // Length check
-        //System.out.println("Printing length check");
-        //System.out.println(splitY.first.size());
-        //System.out.println(splitY.second.size());
-
-
-        System.out.println("Printing train data details");
-        // Train data
-
-        System.out.println(train_labels.size());
-        System.out.println(train_labels);
-        System.out.println(splitX.second);
-
-        // Test data
-        System.out.println(test_labels.size());
-        System.out.println(test_labels);
-        System.out.println(splitX.first);
-
 
         perp.fit(splitX.second, train_labels);
 
         List<Integer> result = perp.predict_batch(splitX.first);
-
+        System.out.println("Prediction result");
         System.out.println(result);
+
+        System.out.println(Integer.toBinaryString(result.get(1)));
+        System.out.println("binary comp");
+
+        List<Integer> correct = new ArrayList<>(result.size());
+
+        for (int x = 0; x < result.size(); x++) {
+            int a = result.get(x);
+            int b = test_labels.get(x);
+            if (a == b) {
+                correct.add(1);
+            } else {
+                correct.add(0);
+            }
+        }
+
+        double accuracyPercentage = correct.stream().mapToInt(Integer::intValue).average().orElse(0) * 100;
+
+        System.err.println("Accuracy percentage is " + accuracyPercentage + "\n");
 
     }
 
     public static <T> Pair<List<T>, List<T>> split_list(List<T> orig_list) {
         int splitIndex = orig_list.size() / 4; // 25% of the list size
-        List<T> firstQuarter = new ArrayList<>(orig_list.subList(0, splitIndex));
-        List<T> remainingThreeQuarters = new ArrayList<>(orig_list.subList(splitIndex, orig_list.size()));
+        List<T> firstQuarter = new ArrayList<>(orig_list.subList(0, splitIndex)); // 25% is always first
+        List<T> remainingThreeQuarters = new ArrayList<>(orig_list.subList(splitIndex, orig_list.size()));// 75% is
+                                                                                                          // always
+                                                                                                          // second
 
         return new Pair<>(firstQuarter, remainingThreeQuarters);
     }
 
-    public static <T, U> List<Integer> gen_stuff(Pair<List<T>, List<U>> input, Boolean state, String filter) { 
+    public static <T, U> List<Integer> gen_stuff(Pair<List<T>, List<U>> input, Boolean state, String filter) {
         List<Integer> loc_labels = new ArrayList<>();
         if (state == true) {
             for (int x = 0; x < input.second.size(); x++) { // Works on the 75%

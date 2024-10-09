@@ -37,10 +37,7 @@ public class FileHandler {
             }
         }
 
-        // Print some information about the parsed data
-        System.out.println("Number of samples: " + X.size());
-        System.out.println("Number of features per sample: " + X.get(0).length);
-        System.out.println("Number of labels: " + y.size());
+        
         for (int i = 0;i < Math.min(5,X.size());i++){
             System.out.println(Arrays.toString(X.get(i)));
         }
