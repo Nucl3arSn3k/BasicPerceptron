@@ -17,7 +17,7 @@ public class AppTest {
         double[] Y = {4.0, 5.0, 6.0};
        
         double expected = 32.0; // 1*4 + 2*5 + 3*6 = 4 + 10 + 18 = 32
-        double actual = perp.dot_product(X, Y);
+        double actual = Perceptron.dot_product(X, Y);
        
         assertEquals(expected, actual, 0.0001, "The dot product should be 32.0");
     }
