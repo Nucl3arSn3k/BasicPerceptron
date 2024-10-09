@@ -47,14 +47,20 @@ public class App {
         List<Integer> train_labels = gen_stuff(splitY, true, null);
         List<Integer> test_labels = gen_stuff(splitY, true, null);
 
+        // Length check
+        System.out.println("Printing length check");
+        System.out.println(splitY.first.size());
+        System.out.println(splitY.second.size());
 
-        //Train data
+
+        System.out.println("Printing train data details");
+        // Train data
+
         System.out.println(train_labels.size());
         System.out.println(train_labels);
         System.out.println(splitX.second);
 
-
-        //Test data
+        // Test data
         System.out.println(test_labels.size());
         System.out.println(test_labels);
         System.out.println(splitX.first);
@@ -63,16 +69,21 @@ public class App {
 
     public static <T> Pair<List<T>, List<T>> split_list(List<T> orig_list) {
         int splitIndex = orig_list.size() / 4; // 25% of the list size
-        List<T> firstQuarter = new ArrayList<>(orig_list.subList(0, splitIndex)); 
+        List<T> firstQuarter = new ArrayList<>(orig_list.subList(0, splitIndex));
         List<T> remainingThreeQuarters = new ArrayList<>(orig_list.subList(splitIndex, orig_list.size()));
 
         return new Pair<>(firstQuarter, remainingThreeQuarters);
     }
 
-    public static <T, U> List<Integer> gen_stuff(Pair<List<T>, List<U>> input, Boolean state, String filter) { //test label and train lable gen
+    public static <T, U> List<Integer> gen_stuff(Pair<List<T>, List<U>> input, Boolean state, String filter) { // test
+                                                                                                               // label
+                                                                                                               // and
+                                                                                                               // train
+                                                                                                               // lable
+                                                                                                               // gen
         List<Integer> loc_labels = new ArrayList<>();
         if (state == true) {
-            for (int x = 0; x < input.second.size(); x++) { //Works on the 75%
+            for (int x = 0; x < input.second.size(); x++) { // Works on the 75%
                 if (input.second.get(x).equals("Iris-setosa")) {
                     loc_labels.add(1);
                 } else {
@@ -81,7 +92,7 @@ public class App {
             }
 
         } else {
-            for (int x = 0; x < input.first.size(); x++) { //Works on the 25%
+            for (int x = 0; x < input.first.size(); x++) { // Works on the 25%
                 if (input.first.get(x).equals("Iris-setosa")) {
                     loc_labels.add(1);
                 } else {
