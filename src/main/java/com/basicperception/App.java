@@ -45,7 +45,7 @@ public class App {
 
         // System.out.println(result);
         List<Integer> train_labels = gen_stuff(splitY, true, null);
-        List<Integer> test_labels = gen_stuff(splitY, true, null);
+        List<Integer> test_labels = gen_stuff(splitY, false, null);
 
         // Length check
         System.out.println("Printing length check");
