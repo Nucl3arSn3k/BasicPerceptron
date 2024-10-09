@@ -47,7 +47,8 @@ public class App {
         List<Integer> train_labels = gen_stuff(splitY, true, null);
         List<Integer> test_labels = gen_stuff(splitY, false, null);
 
-        // Length check
+        System.err.println("Test labels");
+        System.out.println(test_labels);
 
         perp.fit(splitX.second, train_labels);
 
@@ -56,8 +57,7 @@ public class App {
         System.out.println(result);
 
         System.out.println(Integer.toBinaryString(result.get(1)));
-        System.out.println("binary comp");
-
+        
         List<Integer> correct = new ArrayList<>(result.size());
 
         for (int x = 0; x < result.size(); x++) {
