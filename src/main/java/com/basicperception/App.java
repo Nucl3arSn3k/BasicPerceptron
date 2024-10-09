@@ -32,7 +32,7 @@ public class App {
 
         List<double[]> loc_x = fh.getX();
         List<String> loc_y = fh.getY();
-        Perceptron perp = new Perceptron((float) 0.1, 2);
+        Perceptron perp = new Perceptron((float) 0.1, 10);
 
         Pair<List<double[]>, List<double[]>> splitX = split_list(loc_x);
         Pair<List<String>, List<String>> splitY = split_list(loc_y);
@@ -48,9 +48,9 @@ public class App {
         List<Integer> test_labels = gen_stuff(splitY, false, null);
 
         // Length check
-        System.out.println("Printing length check");
-        System.out.println(splitY.first.size());
-        System.out.println(splitY.second.size());
+        //System.out.println("Printing length check");
+        //System.out.println(splitY.first.size());
+        //System.out.println(splitY.second.size());
 
 
         System.out.println("Printing train data details");
@@ -65,6 +65,13 @@ public class App {
         System.out.println(test_labels);
         System.out.println(splitX.first);
 
+
+        perp.fit(splitX.second, train_labels);
+
+        List<Integer> result = perp.predict_batch(splitX.first);
+
+        System.out.println(result);
+
     }
 
     public static <T> Pair<List<T>, List<T>> split_list(List<T> orig_list) {
@@ -75,12 +82,7 @@ public class App {
         return new Pair<>(firstQuarter, remainingThreeQuarters);
     }
 
-    public static <T, U> List<Integer> gen_stuff(Pair<List<T>, List<U>> input, Boolean state, String filter) { // test
-                                                                                                               // label
-                                                                                                               // and
-                                                                                                               // train
-                                                                                                               // lable
-                                                                                                               // gen
+    public static <T, U> List<Integer> gen_stuff(Pair<List<T>, List<U>> input, Boolean state, String filter) { 
         List<Integer> loc_labels = new ArrayList<>();
         if (state == true) {
             for (int x = 0; x < input.second.size(); x++) { // Works on the 75%

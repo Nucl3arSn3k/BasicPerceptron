@@ -11,7 +11,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-    </properties>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -25,4 +25,16 @@
       <version>1.9.0</version>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.4.1</version>
+        <configuration>
+          <mainClass>com.basicperception.App</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

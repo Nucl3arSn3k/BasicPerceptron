@@ -2,7 +2,7 @@ package com.basicperception;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
-
+import java.util.List;
 public class Perceptron {
     private float eta; // Learning rate
     private int n_iter;
@@ -41,29 +41,48 @@ public class Perceptron {
 
 
 
-    public int[] predict(double[] X) {
+    public int predict(double[] X) {
         double weightedSum = weighted_sum(X);
-        return new int[]{weightedSum >= 0 ? 1 : -1};
+        return weightedSum >= 0 ? 1 : -1;
     }
 
 
+    public List<Integer> predict_batch(List<double[]> X) {
+        List<Integer> val = new ArrayList<Integer>(X.size());
+        for (int i = 0;i < X.size();i++){
+            double weightedSum = weighted_sum(X.get(i));
+            int var = weightedSum >= 0 ? 1 : -1;
+            val.add(var);
+        }
+        
+        return val;
+    }
+
+    //public int batchpredictions(int[]X){}
 
 
-    public Perceptron fit(double[][] X, int[] y) {
-        int numFeatures = X[0].length;
+
+
+    public Perceptron fit(List<double[]> x, List<Integer> y) {
+        if (x.isEmpty() || y.isEmpty() || x.size() != y.size()) {
+            throw new IllegalArgumentException("Input lists must be non-empty and of equal size");
+        }
+    
+        int numFeatures = x.get(0).length;
         this.weights = new ArrayList<>(numFeatures + 1);
         for (int i = 0; i <= numFeatures; i++) {
             this.weights.add(0.0); // Initialize weights to 0
         }
+    
         this.errors = new ArrayList<>();
-
+    
         for (int i = 0; i < this.n_iter; i++) {
             int error = 0;
-            for (int j = 0; j < X.length; j++) {
-                double[] xi = X[j];
-                int target = y[j];
-                int prediction = predict(xi)[0];
-                
+            for (int j = 0; j < x.size(); j++) {
+                double[] xi = x.get(j);
+                int target = y.get(j);
+                int prediction = predict(xi);
+               
                 if (prediction != target) {
                     double update = this.eta * (target - prediction);
                     for (int k = 1; k < this.weights.size(); k++) {
